@@ -3,6 +3,7 @@ require 'rubygems'
 require 'mocha'
 gem 'thoughtbot-shoulda', ">= 2.0.0"
 require 'shoulda'
+gem 'rails', '2.1.0'
 require 'action_controller'
 require 'action_controller/test_process'
 require 'active_record'

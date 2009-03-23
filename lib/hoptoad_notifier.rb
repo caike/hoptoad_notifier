@@ -18,7 +18,7 @@ module HoptoadNotifier
   class << self
     attr_accessor :host, :port, :secure, :api_key, :http_open_timeout, :http_read_timeout,
                   :proxy_host, :proxy_port, :proxy_user, :proxy_pass
-    attr_reader   :backtrace_filters, :ignore_by_filters
+    attr_reader   :backtrace_filters
 
     # Takes a block and adds it to the list of backtrace filters. When the filters
     # run, the block will be handed each line of the backtrace and can modify
@@ -26,6 +26,10 @@ module HoptoadNotifier
     # constant will be transformed into "[RAILS_ROOT]"
     def filter_backtrace &block
       (@backtrace_filters ||= []) << block
+    end
+
+    def ignore_by_filters
+      @ignore_by_filters ||= []
     end
 
     # The port on which your Hoptoad server runs.

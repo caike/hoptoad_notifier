@@ -287,6 +287,20 @@ class HoptoadNotifierTest < Test::Unit::TestCase
 
         assert_equal(:serializable_data, @controller.send(:clean_notice, raw_notice))
       end
+
+      context "and configured to ignore additional exceptions without filter types" do
+        setup do
+          HoptoadNotifier.ignore << ActiveRecord::StatementInvalid
+        end
+
+        should "work fine without configured ignore_by_filter entries" do
+          @controller.expects(:notify_hoptoad).never
+          @controller.expects(:rescue_action_in_public_without_hoptoad)
+          assert_nothing_raised do
+            request("do_raise_ignored")
+          end
+        end
+      end
       
       context "and configured to ignore additional exceptions" do
         setup do

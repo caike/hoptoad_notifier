@@ -206,14 +206,16 @@ module HoptoadNotifier
 
     alias_method :inform_hoptoad, :notify_hoptoad
 
-    # Returns the default logger or a logger that prints to STDOUT. Necessary for manual
-    # notifications outside of controllers.
-    def logger
-      ActiveRecord::Base.logger
-    rescue
-      @logger ||= Logger.new(STDERR)
+    unless defined?(:logger)
+      # Returns the default logger or a logger that prints to STDOUT. Necessary for manual
+      # notifications outside of controllers.
+      def logger
+        ActiveRecord::Base.logger
+      rescue
+        @logger ||= Logger.new(STDERR)
+      end
     end
-
+      
     private
 
     def public_environment? #nodoc:

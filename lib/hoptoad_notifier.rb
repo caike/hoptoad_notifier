@@ -185,7 +185,15 @@ module HoptoadNotifier
         base.send(:alias_method, :rescue_action_in_public_without_hoptoad, :rescue_action_in_public)
         base.send(:alias_method, :rescue_action_in_public, :rescue_action_in_public_with_hoptoad)
       end
-    end
+
+      if ! base.instance_methods.include?('logger')
+        base.class_eval do
+          cattr_accessor :logger
+          self.logger = RAILS_DEFAULT_LOGGER || Logger.new(STDERR)
+        end
+      end
+      
+     end
 
     # Overrides the rescue_action method in ActionController::Base, but does not inhibit
     # any custom processing that is defined with Rails 2's exception helpers.
@@ -206,16 +214,6 @@ module HoptoadNotifier
 
     alias_method :inform_hoptoad, :notify_hoptoad
 
-    unless defined?(:logger)
-      # Returns the default logger or a logger that prints to STDOUT. Necessary for manual
-      # notifications outside of controllers.
-      def logger
-        ActiveRecord::Base.logger
-      rescue
-        @logger ||= Logger.new(STDERR)
-      end
-    end
-      
     private
 
     def public_environment? #nodoc:

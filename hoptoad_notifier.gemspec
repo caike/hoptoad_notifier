@@ -16,6 +16,10 @@ Gem::Specification.new do |s|
     "tasks/hoptoad_notifier_tasks.rake",
     ]
   s.test_files = [
-    "test/hoptoad_notifier_test.rb"
+    "test/configuration_test.rb",
+    "test/controller_test.rb",
+    "test/helper.rb",
+    "test/hoptoad_tasks_test.rb",
+    "test/notifier_test.rb"
     ]
 end
